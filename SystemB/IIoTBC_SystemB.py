@@ -38,7 +38,7 @@ class SystemB:
     sbox_p = [
         [0, 4, 16, 20],
         [1, 5, 17, 21],
-        [2, 6, 18, 23],
+        [2, 6, 18, 22],
         [3, 7, 19, 23]
     ]
     def create_state_var(self, x, r):
@@ -153,9 +153,17 @@ class SystemB:
             constraints.append(temp_ineq)
         return constraints
 
-    def PB(self, in_vars, out_vars):
+    def PB2(self, in_vars, out_vars):
         constraints = []
-        permutaion1 = [2, 1, 4, 7, 5, 6, 3, 0]
+        permutaion1 = [7, 1, 2, 4, 3, 5, 6, 0]
+        for id1 in range(8):
+            id2 = permutaion1[id1]
+            constraints += ["{1} - {0} = 0".format(a, b) for a, b in zip(in_vars[id1*8:id1*8+8], out_vars[id2*8:id2*8+8])]
+        return constraints
+
+    def PB3(self, in_vars, out_vars):
+        constraints = []
+        permutaion1 = [2, 1, 3, 0, 5, 6, 4, 7]
         for id1 in range(8):
             id2 = permutaion1[id1]
             constraints += ["{1} - {0} = 0".format(a, b) for a, b in zip(in_vars[id1*8:id1*8+8], out_vars[id2*8:id2*8+8])]
@@ -194,8 +202,11 @@ class SystemB:
 
             # linear
             out_vars = self.create_state_var('x', rnd+1)
-
-            MILP_eqn += self.PB(yi, out_vars)
+            if rnd%2 == 0:
+                MILP_eqn += self.PB2(out_vars, yi)
+            else:
+                MILP_eqn += self.PB3(out_vars, yi)
+            # MILP_eqn += self.PB(yi, out_vars)
 
         self.vars += self.create_state_var('x', self.round_num)
         file_obj = open(self.file_model, "a")

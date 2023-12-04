@@ -4,13 +4,12 @@ sys.path.append("..")
 from IIoTBC_SystemB import SystemB
 
 if __name__ == "__main__":
-    rounds = 32
-    # 输入division为input_DP
+    rounds = 60   # 输入division为input_DP
     filepath = 'SystemB_R%i/' % (rounds)
     filename_all = filepath + 'SystemB_R{0}_AllResult.txt'.format(rounds)
 
     for active_point in range(1):
-        # active_point = 63
+        active_point = 63
         vector = ['1'] * 64
         vector[active_point] = '0'
         input_DP = ''.join(vector)
