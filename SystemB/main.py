@@ -8,8 +8,8 @@ if __name__ == "__main__":
     filepath = 'SystemB_R%i/' % (rounds)
     filename_all = filepath + 'SystemB_R{0}_AllResult.txt'.format(rounds)
 
-    for active_point in range(1):
-        active_point = 63
+    for active_point in range(64):
+        # active_point = 63
         vector = ['1'] * 64
         vector[active_point] = '0'
         input_DP = ''.join(vector)
